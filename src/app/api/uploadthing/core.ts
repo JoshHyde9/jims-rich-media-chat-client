@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { getServerAuthSession } from "~/server/auth";
 
