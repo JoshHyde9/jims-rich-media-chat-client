@@ -58,6 +58,7 @@ model User {
     userId   String @unique
     name     String
     imageUrl String @db.Text
+    email    String @db.Text
 
     accounts Account[]
     sessions Session[]
