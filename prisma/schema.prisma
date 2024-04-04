@@ -54,11 +54,11 @@ model VerificationToken {
 }
 
 model User {
-    id       String @id @default(uuid())
-    userId   String @unique
-    name     String
-    imageUrl String @db.Text
-    email    String @db.Text
+    id            String    @id @default(uuid())
+    name          String
+    image         String    @db.Text
+    email         String    @unique @db.Text
+    emailVerified DateTime?
 
     accounts Account[]
     sessions Session[]
@@ -74,7 +74,7 @@ model User {
 model Server {
     id         String @id @default(uuid())
     name       String
-    imageUrl   String @db.Text
+    image      String @db.Text
     inviteCode String @db.Text
 
     userId String
