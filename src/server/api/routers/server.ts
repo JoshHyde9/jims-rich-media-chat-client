@@ -25,4 +25,15 @@ export const serverRouter = createTRPCRouter({
         select: { id: true },
       });
     }),
+  getUserServers: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db.server.findMany({
+      where: {
+        members: {
+          some: {
+            userId: ctx.session.user.id,
+          },
+        },
+      },
+    });
+  }),
 });
