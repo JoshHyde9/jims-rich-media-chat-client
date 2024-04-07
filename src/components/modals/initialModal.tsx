@@ -1,9 +1,13 @@
 "use client";
-import * as z from "zod";
+import type z from "zod";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import { api } from "~/trpc/react";
+import { createNewServerSchema } from "~/lib/types";
 
 import { FileUpload } from "../fileUpload";
 
@@ -26,12 +30,15 @@ import {
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
-const formSchema = z.object({
-  name: z.string().min(1, { message: "Server name is required." }),
-  imageUrl: z.string().min(1, { message: "Server image is required." }),
-});
-
 export const InitialModal = () => {
+  const router = useRouter();
+  const { mutate: createServer } = api.server.create.useMutation({
+    onSuccess: (data) => {
+      form.reset();
+      router.push(`/server/${data.id}`);
+    },
+  });
+
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -39,7 +46,7 @@ export const InitialModal = () => {
   }, []);
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(createNewServerSchema),
     defaultValues: {
       name: "",
       imageUrl: "",
@@ -48,8 +55,8 @@ export const InitialModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof createNewServerSchema>) => {
+    createServer(values);
   };
 
   if (!isMounted) return null;
