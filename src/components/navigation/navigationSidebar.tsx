@@ -8,6 +8,7 @@ import { NavigationItem } from "./navigationItem";
 
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
+import { ModeToggle } from "../ui/ModeToggle";
 
 export const NavigationSidebar = async () => {
   const session = await getServerAuthSession();
@@ -32,6 +33,9 @@ export const NavigationSidebar = async () => {
           </div>
         ))}
       </ScrollArea>
+      <div className="flex-items-center-flex-col mt-auto gap-y-4 pb-3">
+        <ModeToggle />
+      </div>
     </div>
   );
 };
