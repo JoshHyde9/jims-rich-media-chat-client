@@ -7,7 +7,7 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: ["uploadthing.com", "utfs.io"],
+    domains: ["uploadthing.com", "utfs.io", "cdn.discordapp.com"],
   },
 };
 
