@@ -10,6 +10,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { SessionProvider } from "next-auth/react";
 
 import { ThemeProvider } from "next-themes";
+import { ModalProvider } from "~/providers/modalProvider";
 
 const font = Open_Sans({ subsets: ["latin"] });
 
@@ -28,7 +29,10 @@ export default function RootLayout({
             enableSystem
             storageKey="discord-theme"
           >
-            <TRPCReactProvider>{children}</TRPCReactProvider>
+            <TRPCReactProvider>
+              <ModalProvider />
+              {children}
+            </TRPCReactProvider>
           </ThemeProvider>
         </body>
       </html>
