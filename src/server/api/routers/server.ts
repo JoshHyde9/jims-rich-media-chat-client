@@ -3,7 +3,7 @@ import { MemberRole } from "@prisma/client";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
-import { createNewServerSchema } from "~/lib/types";
+import { createNewServerSchema, idSchema } from "~/lib/schema";
 
 export const serverRouter = createTRPCRouter({
   create: protectedProcedure
@@ -36,4 +36,26 @@ export const serverRouter = createTRPCRouter({
       },
     });
   }),
+  getById: protectedProcedure.input(idSchema).query(async ({ ctx, input }) => {
+    return await ctx.db.server.findUnique({
+      where: {
+        id: input.id,
+        members: { some: { userId: ctx.session.user.id } },
+      },
+    });
+  }),
+  getMembersAndChannels: protectedProcedure
+    .input(idSchema)
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.server.findUnique({
+        where: {
+          id: input.id,
+          members: { some: { userId: ctx.session.user.id } },
+        },
+        include: {
+          channels: { orderBy: { createdAt: "asc" } },
+          members: { include: { user: true }, orderBy: { role: "asc" } },
+        },
+      });
+    }),
 });

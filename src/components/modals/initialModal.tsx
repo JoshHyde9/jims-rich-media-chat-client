@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { api } from "~/trpc/react";
-import { createNewServerSchema } from "~/lib/types";
+import { createNewServerSchema } from "~/lib/schema";
 
 import { FileUpload } from "../fileUpload";
 
