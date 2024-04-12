@@ -66,12 +66,12 @@ export const CreateServerModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleModalClose}>
-      <DialogContent className="overflow-hidden bg-white p-0 text-black">
+      <DialogContent className="overflow-hidden bg-white p-0 text-black dark:bg-[#2b2d31]">
         <DialogHeader className="px-6 pt-8">
-          <DialogTitle className="text-center text-2xl font-bold">
+          <DialogTitle className="text-center text-2xl font-bold dark:text-primary">
             Customise Your Server
           </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">
+          <DialogDescription className="text-center text-zinc-500 dark:text-primary/70">
             Give your server a personality with a name and image. You can always
             change this later.
           </DialogDescription>
@@ -102,13 +102,13 @@ export const CreateServerModal = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                    <FormLabel className="text-xs font-bold uppercase text-zinc-500 dark:text-primary/70">
                       Server Name
                     </FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="border-0 bg-zinc-300/50 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="border-0 bg-zinc-300/50 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-zinc-800 dark:text-primary/80"
                         placeholder="Server name..."
                         {...field}
                       />
@@ -118,7 +118,7 @@ export const CreateServerModal = () => {
                 )}
               />
             </div>
-            <DialogFooter className="bg-gray-100 px-6 py-4">
+            <DialogFooter className="bg-gray-100 px-6 py-4 dark:bg-[#1E1F22]">
               <Button disabled={isLoading} variant="primary">
                 Create
               </Button>

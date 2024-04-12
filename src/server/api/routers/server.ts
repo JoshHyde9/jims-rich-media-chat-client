@@ -58,4 +58,19 @@ export const serverRouter = createTRPCRouter({
         },
       });
     }),
+  newInviteCode: protectedProcedure
+    .input(idSchema)
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.server.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          inviteCode: uuidv4(),
+        },
+        select: {
+          inviteCode: true,
+        },
+      });
+    }),
 });
