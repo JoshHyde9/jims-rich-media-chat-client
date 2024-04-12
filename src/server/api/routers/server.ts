@@ -3,7 +3,11 @@ import { MemberRole } from "@prisma/client";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
-import { createNewServerSchema, idSchema } from "~/lib/schema";
+import {
+  createNewServerSchema,
+  idSchema,
+  inviteCodeSchema,
+} from "~/lib/schema";
 
 export const serverRouter = createTRPCRouter({
   create: protectedProcedure
@@ -70,6 +74,34 @@ export const serverRouter = createTRPCRouter({
         },
         select: {
           inviteCode: true,
+        },
+      });
+    }),
+  getServerByInviteCode: protectedProcedure
+    .input(inviteCodeSchema)
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.server.findFirst({
+        where: {
+          inviteCode: input.inviteCode,
+          members: {
+            some: {
+              userId: ctx.session.user.id,
+            },
+          },
+        },
+      });
+    }),
+  addNewMember: protectedProcedure
+    .input(inviteCodeSchema)
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.server.update({
+        where: {
+          inviteCode: input.inviteCode,
+        },
+        data: {
+          members: {
+            create: [{ userId: ctx.session.user.id }],
+          },
         },
       });
     }),

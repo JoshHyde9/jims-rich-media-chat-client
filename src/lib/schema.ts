@@ -8,3 +8,7 @@ export const createNewServerSchema = z.object({
 export const idSchema = z.object({
   id: z.string().min(1, { message: "Id is required." }),
 });
+
+export const inviteCodeSchema = z.object({
+  inviteCode: z.string().min(1, { message: "Invite code is required." }),
+});
