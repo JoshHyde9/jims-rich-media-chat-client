@@ -1,20 +1,22 @@
 "use client";
 
+import { useState } from "react";
+import { Check, Copy, RefreshCw } from "lucide-react";
+
+import { api } from "~/trpc/react";
+
+import { useOrigin } from "~/hooks/useOrigin";
+import { useModal } from "~/hooks/useModalStore";
+
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/dialog";
-import { useModal } from "~/hooks/useModalStore";
-
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
-import { Button } from "../ui/button";
-import { Check, Copy, RefreshCw } from "lucide-react";
-import { useOrigin } from "~/hooks/useOrigin";
-import { useState } from "react";
-import { api } from "~/trpc/react";
+import { Button } from "~/components/ui/button";
 
 export const InviteModal = () => {
   const { isOpen, onClose, type, props } = useModal();
