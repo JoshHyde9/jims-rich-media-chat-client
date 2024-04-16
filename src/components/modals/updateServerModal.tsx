@@ -1,13 +1,13 @@
 "use client";
 import type z from "zod";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { api } from "~/trpc/react";
-import { createNewServerSchema } from "~/lib/schema";
+import { updateServerSettingsSchema } from "~/lib/schema";
 
 import { FileUpload } from "../fileUpload";
 
@@ -29,48 +29,62 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
+import { useModal } from "~/hooks/useModalStore";
 
-export const InitialModal = () => {
+export const UpdateServerModal = () => {
+  const { isOpen, onClose, type, props } = useModal();
   const router = useRouter();
-  const { mutate: createServer } = api.server.create.useMutation({
-    onSuccess: (data) => {
+
+  const { mutate: updateServer } = api.server.updateServerSettings.useMutation({
+    onSuccess: async () => {
       form.reset();
-      router.push(`/server/${data.id}`);
+      router.refresh();
+      onClose();
     },
   });
 
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isModalOpen = isOpen && type === "editServer";
+  const { server } = props;
 
   const form = useForm({
-    resolver: zodResolver(createNewServerSchema),
+    resolver: zodResolver(updateServerSettingsSchema),
     defaultValues: {
+      id: "",
       name: "",
       imageUrl: "",
     },
   });
 
+  useEffect(() => {
+    if (server) {
+      form.setValue("id", server.id);
+      form.setValue("name", server.name);
+      form.setValue("imageUrl", server.image);
+    }
+  }, [server, form]);
+
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof createNewServerSchema>) => {
-    createServer(values);
+  const onSubmit = async (
+    values: z.infer<typeof updateServerSettingsSchema>,
+  ) => {
+    updateServer(values);
   };
 
-  if (!isMounted) return null;
+  const handleModalClose = () => {
+    form.reset();
+    onClose();
+  };
 
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleModalClose}>
       <DialogContent className="overflow-hidden bg-white p-0 text-black dark:bg-[#2b2d31]">
         <DialogHeader className="px-6 pt-8">
           <DialogTitle className="text-center text-2xl font-bold dark:text-primary">
             Customise Your Server
           </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">
-            Give your server some personality with a name and image. You can
-            always change this later.
+          <DialogDescription className="text-center text-zinc-500 dark:text-primary/70">
+            Update your server&apos;s image and name to give it a fresh look.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -117,7 +131,7 @@ export const InitialModal = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4 dark:bg-[#1E1F22]">
               <Button disabled={isLoading} variant="primary">
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>

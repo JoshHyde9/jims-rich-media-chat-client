@@ -7,6 +7,7 @@ import {
   createNewServerSchema,
   idSchema,
   inviteCodeSchema,
+  updateServerSettingsSchema,
 } from "~/lib/schema";
 
 export const serverRouter = createTRPCRouter({
@@ -102,6 +103,20 @@ export const serverRouter = createTRPCRouter({
           members: {
             create: [{ userId: ctx.session.user.id }],
           },
+        },
+      });
+    }),
+  updateServerSettings: protectedProcedure
+    .input(updateServerSettingsSchema)
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.server.update({
+        where: {
+          id: input.id,
+          userId: ctx.session.user.id,
+        },
+        data: {
+          name: input.name,
+          image: input.imageUrl,
         },
       });
     }),
