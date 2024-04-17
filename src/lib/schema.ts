@@ -1,3 +1,4 @@
+import { MemberRole } from "@prisma/client";
 import * as z from "zod";
 
 export const createNewServerSchema = z.object({
@@ -15,4 +16,10 @@ export const updateServerSettingsSchema = createNewServerSchema.extend({
 
 export const inviteCodeSchema = z.object({
   inviteCode: z.string().min(1, { message: "Invite code is required." }),
+});
+
+export const updateMemberRoleSchema = z.object({
+  serverId: z.string().min(1, { message: "Server id is required." }),
+  memberId: z.string().min(1, { message: "Member id is required." }),
+  role: z.nativeEnum(MemberRole),
 });
