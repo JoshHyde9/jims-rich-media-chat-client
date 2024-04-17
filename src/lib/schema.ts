@@ -23,3 +23,8 @@ export const updateMemberRoleSchema = z.object({
   memberId: z.string().min(1, { message: "Member id is required." }),
   role: z.nativeEnum(MemberRole),
 });
+
+export const kickMemberSchema = z.object({
+  serverId: z.string().min(1, { message: "Server id is required." }),
+  memberId: z.string().min(1, { message: "Member id is required." }),
+});

@@ -64,17 +64,26 @@ export const MembersModal = () => {
     },
   );
 
-  const onUpdateMemberRole = (
-    memberId: string,
-    serverId: string,
-    role: MemberRole,
-  ) => {
+  const { mutate: kickMember } = api.members.kickMember.useMutation({
+    onSuccess: (data) => {
+      onOpen("members", { server: data });
+
+      setLoadingId("");
+    },
+  });
+
+  const onUpdateMemberRole = (memberId: string, role: MemberRole) => {
     setLoadingId(memberId);
     updateMemberRole({
       memberId: memberId,
-      serverId: serverId,
+      serverId: server.id,
       role,
     });
+  };
+
+  const onMemberKick = (memberId: string) => {
+    setLoadingId(memberId);
+    kickMember({ memberId: memberId, serverId: server.id });
   };
 
   return (
@@ -120,11 +129,7 @@ export const MembersModal = () => {
                               <DropdownMenuItem
                                 className="cursor-pointer"
                                 onClick={() =>
-                                  onUpdateMemberRole(
-                                    member.id,
-                                    server.id,
-                                    "GUEST",
-                                  )
+                                  onUpdateMemberRole(member.id, "GUEST")
                                 }
                               >
                                 Guest
@@ -138,11 +143,7 @@ export const MembersModal = () => {
                               <DropdownMenuItem
                                 className="cursor-pointer"
                                 onClick={() =>
-                                  onUpdateMemberRole(
-                                    member.id,
-                                    server.id,
-                                    "MODERATOR",
-                                  )
+                                  onUpdateMemberRole(member.id, "MODERATOR")
                                 }
                               >
                                 Moderator
@@ -155,7 +156,10 @@ export const MembersModal = () => {
                         </DropdownMenuPortal>
                       </DropdownMenuSub>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="cursor-pointer">
+                      <DropdownMenuItem
+                        className="cursor-pointer"
+                        onClick={() => onMemberKick(member.id)}
+                      >
                         <Gavel className="mr-2 h-4 w-4" /> Kick
                       </DropdownMenuItem>
                     </DropdownMenuContent>
