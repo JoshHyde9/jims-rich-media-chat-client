@@ -10,7 +10,6 @@ import {
   Loader2,
   MoreVertical,
   Shield,
-  ShieldAlert,
   ShieldCheck,
   ShieldQuestion,
 } from "lucide-react";
@@ -19,6 +18,7 @@ import { useModal } from "~/hooks/useModalStore";
 
 import { api } from "~/trpc/react";
 
+import { roleIconMap } from "~/lib/iconMaps";
 import {
   Dialog,
   DialogContent,
@@ -39,12 +39,6 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { UserAvatar } from "~/components/userAvatar";
-
-const roleIconMap = {
-  GUEST: null,
-  MODERATOR: <ShieldCheck className="ml-2 h-4 w-4 text-indigo-500" />,
-  ADMIN: <ShieldAlert className="ml-2 h-4 w-4 text-rose-500" />,
-};
 
 export const MembersModal = () => {
   const { isOpen, onClose, onOpen, type, props } = useModal();
