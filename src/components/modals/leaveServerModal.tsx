@@ -57,7 +57,7 @@ export const LeaveServerModal = () => {
               Cancel
             </Button>
             <Button
-              variant="primary"
+              variant="destructive"
               disabled={isPending}
               onClick={() => leaveServer({ id: props.server!.id })}
             >
