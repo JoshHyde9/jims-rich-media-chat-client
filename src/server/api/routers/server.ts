@@ -120,4 +120,26 @@ export const serverRouter = createTRPCRouter({
         },
       });
     }),
+  leave: protectedProcedure.input(idSchema).mutation(async ({ ctx, input }) => {
+    return await ctx.db.server.update({
+      where: {
+        id: input.id,
+        userId: {
+          not: ctx.session.user.id,
+        },
+        members: {
+          some: {
+            userId: ctx.session.user.id,
+          },
+        },
+      },
+      data: {
+        members: {
+          deleteMany: {
+            userId: ctx.session.user.id,
+          },
+        },
+      },
+    });
+  }),
 });
