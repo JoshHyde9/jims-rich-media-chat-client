@@ -1,6 +1,7 @@
 "use client";
 import type z from "zod";
 
+import { ChannelType } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,7 +36,6 @@ import {
 } from "~/components/ui/select";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { ChannelType } from "@prisma/client";
 
 export const CreateChannelModal = () => {
   const { isOpen, onClose, type, props } = useModal();
@@ -63,6 +63,7 @@ export const CreateChannelModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof createChannelSchema>) => {
+    form.setValue("serverId", props.server?.id);
     createChannel(values);
   };
 
