@@ -142,4 +142,14 @@ export const serverRouter = createTRPCRouter({
       },
     });
   }),
+  delete: protectedProcedure
+    .input(idSchema)
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.server.delete({
+        where: {
+          id: input.id,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
 });
