@@ -8,7 +8,8 @@ export type ModalType =
   | "members"
   | "createChannel"
   | "leaveServer"
-  | "deleteServer";
+  | "deleteServer"
+  | "userSettings";
 
 type ModalProps = {
   server?: Server;
