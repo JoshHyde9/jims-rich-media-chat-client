@@ -1,4 +1,4 @@
-import { MemberRole } from "@prisma/client";
+import { ChannelType, MemberRole } from "@prisma/client";
 import * as z from "zod";
 
 export const createNewServerSchema = z.object({
@@ -27,4 +27,15 @@ export const updateMemberRoleSchema = z.object({
 export const kickMemberSchema = z.object({
   serverId: z.string().min(1, { message: "Server id is required." }),
   memberId: z.string().min(1, { message: "Member id is required." }),
+});
+
+export const createChannelSchema = z.object({
+  serverId: z.string().optional(),
+  name: z
+    .string()
+    .min(1, { message: "Channel name is required." })
+    .refine((name) => name !== "general", {
+      message: 'Channel name cannot be "channel".',
+    }),
+  type: z.nativeEnum(ChannelType),
 });
