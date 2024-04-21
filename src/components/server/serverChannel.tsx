@@ -1,10 +1,14 @@
 "use client";
 
-import type { Channel, MemberRole, Server } from "@prisma/client";
-import { useRouter, useParams } from "next/navigation";
-import { sidebarIconMap } from "~/lib/iconMaps";
+import { type Channel, type Server, MemberRole } from "@prisma/client";
 
+import { useRouter, useParams } from "next/navigation";
+import { Edit, Lock, Trash } from "lucide-react";
+
+import { sidebarIconMap } from "~/lib/iconMaps";
 import { cn } from "~/lib/utils";
+
+import { ActionTooltip } from "~/components/actionTooltip";
 
 type ServerChannelProps = {
   channel: Channel;
@@ -19,6 +23,7 @@ export const ServerChannel = ({
 }: ServerChannelProps) => {
   const params = useParams<{ channelId?: string }>();
   const router = useRouter();
+
   const Icon = sidebarIconMap[channel.type];
 
   return (
@@ -39,6 +44,19 @@ export const ServerChannel = ({
       >
         {channel.name}
       </p>
+      {channel.name !== "general" && role !== MemberRole.GUEST && (
+        <div className="ml-auto flex items-center gap-x-2">
+          <ActionTooltip label="Edit">
+            <Edit className="hidden h-4 w-4 text-zinc-500 transition hover:text-zinc-600 group-hover:block dark:text-zinc-400 dark:hover:text-zinc-300" />
+          </ActionTooltip>
+          <ActionTooltip label="Delete">
+            <Trash className="hidden h-4 w-4 text-zinc-500 transition hover:text-zinc-600 group-hover:block dark:text-zinc-400 dark:hover:text-zinc-300" />
+          </ActionTooltip>
+        </div>
+      )}
+      {channel.name === "general" && (
+        <Lock className="ml-auto hidden h-4 w-4 text-zinc-500 group-hover:block dark:text-zinc-400" />
+      )}
     </button>
   );
 };
