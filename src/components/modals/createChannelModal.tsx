@@ -2,6 +2,8 @@
 import type z from "zod";
 
 import { ChannelType } from "@prisma/client";
+
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useModal } from "~/hooks/useModalStore";
 
 import { api } from "~/trpc/react";
+
 import { createChannelSchema } from "~/lib/schema";
 
 import {
@@ -49,18 +52,26 @@ export const CreateChannelModal = () => {
     },
   });
 
-  const isModalOpen = isOpen && type === "createChannel";
-
   const form = useForm({
     resolver: zodResolver(createChannelSchema),
     defaultValues: {
       serverId: props.server?.id,
       name: "",
-      type: ChannelType.TEXT,
+      type: props.channelType ?? ChannelType.TEXT,
     },
   });
 
+  const isModalOpen = isOpen && type === "createChannel";
+
   const isLoading = form.formState.isSubmitting;
+
+  useEffect(() => {
+    if (props.channelType) {
+      form.setValue("type", props.channelType);
+    } else {
+      form.setValue("type", ChannelType.TEXT);
+    }
+  }, [props.channelType, form]);
 
   const onSubmit = async (values: z.infer<typeof createChannelSchema>) => {
     form.setValue("serverId", props.server?.id);
@@ -129,7 +140,7 @@ export const CreateChannelModal = () => {
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <SelectTrigger className="border-0 bg-zinc-300/50 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-zinc-800 dark:text-primary/70">
+                        <SelectTrigger className="border-0 bg-zinc-300/50 capitalize focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-zinc-800 dark:text-primary/70">
                           <SelectValue placeholder="Channel Type" />
                         </SelectTrigger>
                         <SelectContent className="text-black focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-zinc-800 dark:text-primary/80">
