@@ -1,3 +1,4 @@
+// TODO: Refactor all of this
 import { ChannelType, MemberRole } from "@prisma/client";
 import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
 
@@ -21,4 +22,10 @@ export const memberIconMap = {
     <ShieldCheck className="mr-2 h-4 w-4 text-indigo-500" />
   ),
   [MemberRole.ADMIN]: <ShieldAlert className="mr-2 h-4 w-4 text-rose-500" />,
+};
+
+export const sidebarIconMap = {
+  [ChannelType.TEXT]: Hash,
+  [ChannelType.AUDIO]: Mic,
+  [ChannelType.VIDEO]: Video,
 };

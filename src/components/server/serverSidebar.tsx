@@ -4,12 +4,15 @@ import { redirect } from "next/navigation";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
+import { channelIconMap, memberIconMap } from "~/lib/iconMaps";
+
 import { ServerHeader } from "./serverHeader";
 import { ServerSearch } from "./ServerSearch";
+import { ServerSection } from "./serverSection";
+import { ServerChannel } from "./serverChannel";
 
 import { ScrollArea } from "~/components/ui/scroll-area";
-
-import { channelIconMap, memberIconMap } from "~/lib/iconMaps";
+import { Separator } from "~/components/ui/separator";
 
 type ServerSidebarProps = {
   serverId: string;
@@ -90,6 +93,25 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             ]}
           />
         </div>
+        <Separator className="my-2 rounded-md bg-zinc-200 dark:bg-zinc-700" />
+        {!!textChannels.length && (
+          <div className="mb-2">
+            <ServerSection
+              sectionType="channel"
+              channelType={ChannelType.TEXT}
+              role={loggedInUserRole}
+              label="Text Channels"
+            />
+            {textChannels.map((channel) => (
+              <ServerChannel
+                key={channel.id}
+                channel={channel}
+                server={server}
+                role={loggedInUserRole}
+              />
+            ))}
+          </div>
+        )}
       </ScrollArea>
     </div>
   );
