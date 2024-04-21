@@ -1,4 +1,8 @@
-import { kickMemberSchema, updateMemberRoleSchema } from "~/lib/schema";
+import {
+  kickMemberSchema,
+  updateMemberNicknameSchema,
+  updateMemberRoleSchema,
+} from "~/lib/schema";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -63,6 +67,28 @@ export const membersRouter = createTRPCRouter({
             },
             orderBy: {
               role: "asc",
+            },
+          },
+        },
+      });
+    }),
+  updateMemberNickname: protectedProcedure
+    .input(updateMemberNicknameSchema)
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.server.update({
+        where: {
+          id: input.serverId,
+          userId: ctx.session.user.id,
+        },
+        data: {
+          members: {
+            update: {
+              where: {
+                id: input.memberId,
+              },
+              data: {
+                nickname: input.nickname,
+              },
             },
           },
         },

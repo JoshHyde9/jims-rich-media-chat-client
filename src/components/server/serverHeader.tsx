@@ -14,6 +14,7 @@ import {
 import {
   ChevronDown,
   LogOut,
+  Pencil,
   PlusCircle,
   Settings,
   Trash,
@@ -25,9 +26,10 @@ import { useModal } from "~/hooks/useModalStore";
 type ServerHeaderProps = {
   server: ServerWithMembersWithProfiles;
   role?: MemberRole;
+  userId: string;
 };
 
-export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
+export const ServerHeader = ({ server, role, userId }: ServerHeaderProps) => {
   const { onOpen } = useModal();
 
   const isAdmin = role === MemberRole.ADMIN;
@@ -73,6 +75,13 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             Create Channel <PlusCircle className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
         )}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => onOpen("serverProfile", { server, userId })}
+          className="cursor-pointer px-3 py-2 text-sm"
+        >
+          Update Server Profile <Pencil className="ml-auto h-4 w-4" />
+        </DropdownMenuItem>
         {isModerator && <DropdownMenuSeparator />}
         {isAdmin && (
           <DropdownMenuItem

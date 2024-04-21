@@ -39,3 +39,9 @@ export const createChannelSchema = z.object({
     }),
   type: z.nativeEnum(ChannelType),
 });
+
+export const updateMemberNicknameSchema = z.object({
+  nickname: z.string().optional(),
+  serverId: z.string().min(1, { message: "Server id is required." }),
+  memberId: z.string().min(1, { message: "Member id is required." }),
+});

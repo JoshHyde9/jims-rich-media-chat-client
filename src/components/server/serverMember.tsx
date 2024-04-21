@@ -2,7 +2,7 @@
 
 import type { Member, Server, User } from "@prisma/client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 import { cn } from "~/lib/utils";
 import { roleIconMap } from "~/lib/iconMaps";
@@ -13,14 +13,13 @@ type ServerMemberProps = {
   server: Server;
 };
 
-export const ServerMember = ({ member, server }: ServerMemberProps) => {
+export const ServerMember = ({ member }: ServerMemberProps) => {
   const params = useParams<{ memberId?: string }>();
-  const router = useRouter();
 
   return (
     <button
       className={cn(
-        "group mb-1 flex w-full items-center justify-between gap-x-2 rounded-md p-2 transition hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50",
+        "group mb-1 flex w-full items-center gap-x-2 rounded-md p-2 transition hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50",
         params?.memberId === member.id && "bg-zinc-700/20 dark:bg-zinc-700",
       )}
     >
@@ -40,7 +39,7 @@ export const ServerMember = ({ member, server }: ServerMemberProps) => {
             ? member.user.name.substring(0, 17) + "..."
             : member.user.name}
       </p>
-      {roleIconMap[member.role]}
+      <div className="ml-auto">{roleIconMap[member.role]}</div>
     </button>
   );
 };

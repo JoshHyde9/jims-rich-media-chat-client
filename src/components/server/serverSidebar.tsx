@@ -50,7 +50,11 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
 
   return (
     <div className="flex h-full w-full flex-col bg-[#f2f3f5] text-primary dark:bg-[#2b2d31]">
-      <ServerHeader server={server} role={loggedInUserRole} />
+      <ServerHeader
+        server={server}
+        role={loggedInUserRole}
+        userId={session.user.id}
+      />
       <ScrollArea className="flex-1 px-3">
         <div className="mt-2">
           <ServerSearch
