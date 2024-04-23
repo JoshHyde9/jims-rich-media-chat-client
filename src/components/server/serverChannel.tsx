@@ -1,9 +1,12 @@
 "use client";
 
-import { type Channel, type Server, MemberRole } from "@prisma/client";
+import { type Channel, MemberRole } from "@prisma/client";
+import type { ServerWithMembersWithProfiles } from "~/lib/types";
 
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Edit, Lock, Trash } from "lucide-react";
+
+import { useModal } from "~/hooks/useModalStore";
 
 import { sidebarIconMap } from "~/lib/iconMaps";
 import { cn } from "~/lib/utils";
@@ -12,7 +15,7 @@ import { ActionTooltip } from "~/components/actionTooltip";
 
 type ServerChannelProps = {
   channel: Channel;
-  server: Server;
+  server: ServerWithMembersWithProfiles;
   role?: MemberRole;
 };
 
@@ -22,13 +25,12 @@ export const ServerChannel = ({
   role,
 }: ServerChannelProps) => {
   const params = useParams<{ channelId?: string }>();
-  const router = useRouter();
+  const { onOpen } = useModal();
 
   const Icon = sidebarIconMap[channel.type];
 
   return (
     <button
-      onClick={() => {}}
       className={cn(
         "group mb-1 flex w-full items-center gap-x-2 rounded-md p-2 transition hover:bg-zinc-700/10 hover:dark:bg-zinc-700/50",
         params?.channelId === channel.id && "bg-zinc-700/20 dark:bg-zinc-700",
@@ -50,7 +52,10 @@ export const ServerChannel = ({
             <Edit className="hidden h-4 w-4 text-zinc-500 transition hover:text-zinc-600 group-hover:block dark:text-zinc-400 dark:hover:text-zinc-300" />
           </ActionTooltip>
           <ActionTooltip label="Delete">
-            <Trash className="hidden h-4 w-4 text-zinc-500 transition hover:text-zinc-600 group-hover:block dark:text-zinc-400 dark:hover:text-zinc-300" />
+            <Trash
+              onClick={() => onOpen("deleteChannel", { server, channel })}
+              className="hidden h-4 w-4 text-zinc-500 transition hover:text-zinc-600 group-hover:block dark:text-zinc-400 dark:hover:text-zinc-300"
+            />
           </ActionTooltip>
         </div>
       )}

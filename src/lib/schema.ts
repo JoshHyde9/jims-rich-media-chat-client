@@ -45,3 +45,8 @@ export const updateMemberNicknameSchema = z.object({
   serverId: z.string().min(1, { message: "Server id is required." }),
   memberId: z.string().min(1, { message: "Member id is required." }),
 });
+
+export const deleteChannelSchema = z.object({
+  serverId: z.string().min(1, { message: "Server id is required." }),
+  channelId: z.string().min(1, { message: "Channel id is required." }),
+});

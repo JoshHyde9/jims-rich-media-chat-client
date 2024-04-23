@@ -11,6 +11,7 @@ import { LeaveServerModal } from "~/components/modals/leaveServerModal";
 import { DeleteServerModal } from "~/components/modals/deleteServerModal";
 import { UserSettingsModal } from "~/components/modals/userSettingsModal";
 import { UpdateServerProfileModal } from "~/components/modals/updateServerProfileModal";
+import { DeleteChannelModal } from "~/components/modals/deleteChannelModal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -32,6 +33,7 @@ export const ModalProvider = () => {
       <DeleteServerModal />
       <UserSettingsModal />
       <UpdateServerProfileModal />
+      <DeleteChannelModal />
     </>
   );
 };

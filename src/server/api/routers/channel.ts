@@ -2,7 +2,7 @@ import { MemberRole } from "@prisma/client";
 
 import { TRPCError } from "@trpc/server";
 
-import { createChannelSchema } from "~/lib/schema";
+import { createChannelSchema, deleteChannelSchema } from "~/lib/schema";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -45,6 +45,33 @@ export const channelRouter = createTRPCRouter({
               userId: ctx.session.user.id,
               name: sanitisedName,
               type: input.type,
+            },
+          },
+        },
+      });
+    }),
+  delete: protectedProcedure
+    .input(deleteChannelSchema)
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.server.update({
+        where: {
+          id: input.serverId,
+          members: {
+            some: {
+              userId: ctx.session.user.id,
+              role: {
+                in: [MemberRole.ADMIN, MemberRole.MODERATOR],
+              },
+            },
+          },
+        },
+        data: {
+          channels: {
+            delete: {
+              id: input.channelId,
+              name: {
+                not: "general",
+              },
             },
           },
         },

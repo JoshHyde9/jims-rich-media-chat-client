@@ -1,4 +1,4 @@
-import type { ChannelType } from "@prisma/client";
+import type { Channel, ChannelType } from "@prisma/client";
 import type { ServerWithMembersWithProfiles } from "~/lib/types";
 
 import { create } from "zustand";
@@ -12,11 +12,13 @@ export type ModalType =
   | "leaveServer"
   | "deleteServer"
   | "userSettings"
-  | "serverProfile";
+  | "serverProfile"
+  | "deleteChannel";
 
 type ModalProps = {
   server?: ServerWithMembersWithProfiles;
   channelType?: ChannelType;
+  channel?: Channel;
   userId?: string;
 };
 
