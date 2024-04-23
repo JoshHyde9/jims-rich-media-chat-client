@@ -22,7 +22,7 @@ export const DeleteServerModal = () => {
 
   const isModalOpen = isOpen && type === "deleteServer";
 
-  const { mutate: leaveServer, isPending } = api.server.delete.useMutation({
+  const { mutate: deleteServer, isPending } = api.server.delete.useMutation({
     onSuccess: () => {
       onClose();
 
@@ -59,7 +59,7 @@ export const DeleteServerModal = () => {
             <Button
               variant="destructive"
               disabled={isPending}
-              onClick={() => leaveServer({ id: props.server!.id })}
+              onClick={() => deleteServer({ id: props.server!.id })}
             >
               Confirm
             </Button>
