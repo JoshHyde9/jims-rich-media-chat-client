@@ -107,6 +107,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                 channelType={ChannelType.TEXT}
                 role={loggedInUserRole}
                 label="Text Channels"
+                server={server}
               />
               {textChannels.map((channel) => (
                 <ServerChannel
