@@ -13,7 +13,8 @@ export type ModalType =
   | "deleteServer"
   | "userSettings"
   | "serverProfile"
-  | "deleteChannel";
+  | "deleteChannel"
+  | "editChannel";
 
 type ModalProps = {
   server?: ServerWithMembersWithProfiles;

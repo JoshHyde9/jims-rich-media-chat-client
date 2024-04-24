@@ -35,7 +35,7 @@ export const createChannelSchema = z.object({
     .string()
     .min(1, { message: "Channel name is required." })
     .refine((name) => name !== "general", {
-      message: 'Channel name cannot be "channel".',
+      message: 'Channel name cannot be "general".',
     }),
   type: z.nativeEnum(ChannelType),
 });
@@ -49,4 +49,16 @@ export const updateMemberNicknameSchema = z.object({
 export const deleteChannelSchema = z.object({
   serverId: z.string().min(1, { message: "Server id is required." }),
   channelId: z.string().min(1, { message: "Channel id is required." }),
+});
+
+export const updateChannelSchema = z.object({
+  serverId: z.string().min(1, { message: "Server id is required." }),
+  channelId: z.string().min(1, { message: "Channel id is required." }),
+  name: z
+    .string()
+    .min(1, { message: "Channel name is required." })
+    .refine((name) => name !== "general", {
+      message: 'Channel name cannot be "general".',
+    }),
+  type: z.nativeEnum(ChannelType),
 });
