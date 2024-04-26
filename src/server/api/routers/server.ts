@@ -49,6 +49,26 @@ export const serverRouter = createTRPCRouter({
       },
     });
   }),
+  getBydIdWithFirstChannel: protectedProcedure
+    .input(idSchema)
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.server.findUnique({
+        where: {
+          id: input.id,
+          members: { some: { userId: ctx.session.user.id } },
+        },
+        include: {
+          channels: {
+            where: {
+              name: "general",
+            },
+            orderBy: {
+              createdAt: "asc",
+            },
+          },
+        },
+      });
+    }),
   getMembersAndChannels: protectedProcedure
     .input(idSchema)
     .query(async ({ ctx, input }) => {
