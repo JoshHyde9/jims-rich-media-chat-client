@@ -5,6 +5,7 @@ import { TRPCError } from "@trpc/server";
 import {
   createChannelSchema,
   deleteChannelSchema,
+  idSchema,
   updateChannelSchema,
 } from "~/lib/schema";
 
@@ -112,4 +113,11 @@ export const channelRouter = createTRPCRouter({
         },
       });
     }),
+  findById: protectedProcedure.input(idSchema).query(async ({ ctx, input }) => {
+    return await ctx.db.channel.findUnique({
+      where: {
+        id: input.id,
+      },
+    });
+  }),
 });

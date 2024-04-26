@@ -1,4 +1,5 @@
 import {
+  idSchema,
   kickMemberSchema,
   updateMemberNicknameSchema,
   updateMemberRoleSchema,
@@ -91,6 +92,16 @@ export const membersRouter = createTRPCRouter({
               },
             },
           },
+        },
+      });
+    }),
+  findByUserAndServerId: protectedProcedure
+    .input(idSchema)
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.member.findFirst({
+        where: {
+          serverId: input.id,
+          userId: ctx.session.user.id,
         },
       });
     }),
