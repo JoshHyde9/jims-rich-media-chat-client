@@ -8,11 +8,14 @@
  */
 
 import { initTRPC, TRPCError } from "@trpc/server";
+import EventEmitter from "events";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
+
+const ee = new EventEmitter();
 
 /**
  * 1. CONTEXT
@@ -32,6 +35,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
   return {
     db,
     session,
+    ee,
     ...opts,
   };
 };

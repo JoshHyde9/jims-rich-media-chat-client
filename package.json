@@ -48,6 +48,7 @@
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^6.7.0",
     "uuid": "^9.0.1",
+    "ws": "^8.16.0",
     "zod": "^3.22.4",
     "zustand": "^4.5.2"
   },
@@ -57,6 +58,7 @@
     "@types/react": "^18.2.57",
     "@types/react-dom": "^18.2.19",
     "@types/uuid": "^9.0.8",
+    "@types/ws": "^8.5.10",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "eslint": "^8.57.0",
