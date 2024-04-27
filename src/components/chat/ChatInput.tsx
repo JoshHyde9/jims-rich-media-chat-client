@@ -5,16 +5,18 @@ import type { QueryParamsKeys } from "~/lib/types";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, Smile } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { api } from "~/trpc/react";
 
+import { useModal } from "~/hooks/useModalStore";
+
 import { sendMessageSchema } from "~/lib/schema";
+
+import { EmojiPicker } from "./EmojiPicker";
 
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-
-import { useModal } from "~/hooks/useModalStore";
 
 type ChatInputProps = {
   queryParams: Record<QueryParamsKeys, string>;
@@ -75,12 +77,16 @@ export const ChatInput = ({ name, queryParams, type }: ChatInputProps) => {
                   </button>
                   <Input
                     disabled={isLoading}
-                    className="border-0 border-none bg-zinc-200/90 px-14 py-6 text-zinc-600 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-zinc-700/75 dark:text-zinc-200"
+                    className="border-0 border-none bg-zinc-200/90 px-14 py-6 text-base text-zinc-600 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-zinc-700/75 dark:text-zinc-200"
                     placeholder={`Message ${type === "conversation" ? name : `#${name}`}`}
                     {...field}
                   />
                   <div className="absolute right-8 top-7">
-                    <Smile />
+                    <EmojiPicker
+                      onChange={(emoji) =>
+                        field.onChange(`${field.value} ${emoji}`)
+                      }
+                    />
                   </div>
                 </div>
               </FormControl>
