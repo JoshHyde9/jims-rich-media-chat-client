@@ -74,3 +74,7 @@ export const sendMessageSchema = z.object({
   channelId: z.string().min(1, { message: "Channel id is required." }),
   content: z.string().min(1),
 });
+
+export const messageFileSchema = z.object({
+  imageUrl: z.string().min(1, { message: "Attachment is required." }),
+});

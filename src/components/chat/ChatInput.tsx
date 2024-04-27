@@ -1,18 +1,20 @@
 "use client";
 import type z from "zod";
+import type { QueryParamsKeys } from "~/lib/types";
 
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Smile } from "lucide-react";
+
+import { api } from "~/trpc/react";
 
 import { sendMessageSchema } from "~/lib/schema";
 
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { api } from "~/trpc/react";
-import { useEffect } from "react";
 
-type QueryParamsKeys = "channelId" | "serverId";
+import { useModal } from "~/hooks/useModalStore";
 
 type ChatInputProps = {
   queryParams: Record<QueryParamsKeys, string>;
@@ -21,6 +23,8 @@ type ChatInputProps = {
 };
 
 export const ChatInput = ({ name, queryParams, type }: ChatInputProps) => {
+  const { onOpen } = useModal();
+
   const form = useForm({
     resolver: zodResolver(sendMessageSchema),
     defaultValues: {
@@ -62,7 +66,9 @@ export const ChatInput = ({ name, queryParams, type }: ChatInputProps) => {
                 <div className="relative p-4 pb-6">
                   <button
                     type="button"
-                    onClick={() => {}}
+                    onClick={() =>
+                      onOpen("messageFile", { query: queryParams })
+                    }
                     className="dark:zinc-400 absolute left-8 top-7 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-zinc-500 p-1 transition hover:bg-zinc-600 dark:hover:bg-zinc-300"
                   >
                     <Plus className="text-white dark:text-[#313338]" />

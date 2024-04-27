@@ -1,5 +1,8 @@
 import type { Channel, ChannelType } from "@prisma/client";
-import type { ServerWithMembersWithProfiles } from "~/lib/types";
+import type {
+  QueryParamsKeys,
+  ServerWithMembersWithProfiles,
+} from "~/lib/types";
 
 import { create } from "zustand";
 
@@ -14,13 +17,15 @@ export type ModalType =
   | "userSettings"
   | "serverProfile"
   | "deleteChannel"
-  | "editChannel";
+  | "editChannel"
+  | "messageFile";
 
 type ModalProps = {
   server?: ServerWithMembersWithProfiles;
   channelType?: ChannelType;
   channel?: Channel;
   userId?: string;
+  query?: Record<QueryParamsKeys, string>;
 };
 
 type ModalStore = {
