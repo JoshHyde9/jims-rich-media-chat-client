@@ -5,6 +5,8 @@ import {
   createWSClient,
   loggerLink,
   unstable_httpBatchStreamLink,
+  httpBatchLink,
+  splitLink,
   wsLink,
 } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
@@ -39,14 +41,21 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
   const [trpcClient] = useState(() =>
     api.createClient({
       links: [
-        loggerLink({
-          enabled: (op) =>
-            process.env.NODE_ENV === "development" ||
-            (op.direction === "down" && op.result instanceof Error),
-        }),
-        wsLink({
-          client: wsClient,
-          transformer: superjson,
+        splitLink({
+          condition: (op) => op.type === "subscription",
+          true: wsLink<AppRouter>({
+            client: wsClient,
+            transformer: superjson,
+          }),
+          false: unstable_httpBatchStreamLink({
+            transformer: superjson,
+            url: getBaseUrl() + "/api/trpc",
+            headers: () => {
+              const headers = new Headers();
+              headers.set("x-trpc-source", "nextjs-react");
+              return headers;
+            },
+          }),
         }),
         unstable_httpBatchStreamLink({
           transformer: superjson,
@@ -56,6 +65,11 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
             headers.set("x-trpc-source", "nextjs-react");
             return headers;
           },
+        }),
+        loggerLink({
+          enabled: (opts) =>
+            process.env.NODE_ENV === "development" ||
+            (opts.direction === "down" && opts.result instanceof Error),
         }),
       ],
     }),

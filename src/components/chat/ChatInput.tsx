@@ -38,7 +38,11 @@ export const ChatInput = ({ name, queryParams, type }: ChatInputProps) => {
     }
   }, [form, queryParams]);
 
-  const { mutate: createMessage } = api.message.create.useMutation();
+  const { mutate: createMessage } = api.message.create.useMutation({
+    onSuccess: () => {
+      form.reset();
+    },
+  });
 
   const isLoading = form.formState.isSubmitting;
 
