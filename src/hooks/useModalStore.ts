@@ -18,7 +18,8 @@ export type ModalType =
   | "serverProfile"
   | "deleteChannel"
   | "editChannel"
-  | "messageFile";
+  | "messageFile"
+  | "deleteMessage";
 
 type ModalProps = {
   server?: ServerWithMembersWithProfiles;
@@ -26,6 +27,8 @@ type ModalProps = {
   channel?: Channel;
   userId?: string;
   query?: Record<QueryParamsKeys, string>;
+  messageId?: string;
+  serverId?: string;
 };
 
 type ModalStore = {

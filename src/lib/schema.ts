@@ -78,3 +78,16 @@ export const sendMessageSchema = z.object({
 export const messageFileSchema = z.object({
   imageUrl: z.string().min(1, { message: "Attachment is required." }),
 });
+
+export const getInfiniteMessagesSchema = z.object({
+  serverId: z.string().min(1, { message: "Server id is required." }),
+  channelId: z.string().min(1, { message: "Channel id is required." }),
+  limit: z.number().min(1).max(10),
+  cursor: z.string().nullish(),
+});
+
+export const editMessageSchema = z.object({
+  messageId: z.string().min(1, { message: "Message id is required." }),
+  serverId: z.string().min(1, { message: "Server id is required." }),
+  content: z.string().min(1, { message: "Content is required." }),
+});
