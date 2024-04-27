@@ -5,7 +5,6 @@ import {
   createWSClient,
   loggerLink,
   unstable_httpBatchStreamLink,
-  httpBatchLink,
   splitLink,
   wsLink,
 } from "@trpc/client";
@@ -20,8 +19,6 @@ const createQueryClient = () => new QueryClient();
 const wsClient = createWSClient({
   url: getBaseUrl() + "api/trpc",
 });
-
-console.log("REEEE", wsClient.connection?.state);
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = () => {
