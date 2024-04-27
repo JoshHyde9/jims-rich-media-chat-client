@@ -4,6 +4,7 @@ import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
 import { ChatHeader } from "~/components/chat/ChatHeader";
+import { ChatInput } from "~/components/chat/ChatInput";
 
 type ChannelPageProps = {
   params: {
@@ -34,6 +35,12 @@ export const ChannelPage = async ({ params }: ChannelPageProps) => {
       <ChatHeader
         name={channel.name}
         serverId={channel.serverId}
+        type="channel"
+      />
+      <div className="flex-1">Future Messages</div>
+      <ChatInput
+        name={channel.name}
+        queryParams={{ channelId: channel.id, serverId: channel.serverId }}
         type="channel"
       />
     </div>

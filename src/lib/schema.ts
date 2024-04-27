@@ -67,3 +67,10 @@ export const initialConversationSchema = z.object({
   memberOneId: z.string().min(1, { message: "MemberOne id is required." }),
   memberTwoId: z.string().min(1, { message: "MemberTwo id is required." }),
 });
+
+export const sendMessageSchema = z.object({
+  serverId: z.string().min(1, { message: "Server id is required." }),
+  imageUrl: z.string().optional(),
+  channelId: z.string().min(1, { message: "Channel id is required." }),
+  content: z.string().min(1),
+});

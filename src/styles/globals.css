@@ -66,6 +66,14 @@
   }
 }
 
+html {
+  @apply h-full min-h-screen;
+}
+
+body {
+  @apply h-full;
+}
+
 @layer base {
   * {
     @apply border-border;

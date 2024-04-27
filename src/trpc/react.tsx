@@ -16,7 +16,7 @@ import { type AppRouter } from "~/server/api/root";
 const createQueryClient = () => new QueryClient();
 
 const wsClient = createWSClient({
-  url: "ws://localhost:3001",
+  url: getBaseUrl() + "api/trpc",
 });
 
 console.log("REEEE", wsClient.connection?.state);
