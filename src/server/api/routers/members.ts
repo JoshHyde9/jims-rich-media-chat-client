@@ -103,6 +103,9 @@ export const membersRouter = createTRPCRouter({
           serverId: input.id,
           userId: ctx.session.user.id,
         },
+        include: {
+          user: { select: { name: true } },
+        },
       });
     }),
 });

@@ -62,3 +62,8 @@ export const updateChannelSchema = z.object({
     }),
   type: z.nativeEnum(ChannelType),
 });
+
+export const initialConversationSchema = z.object({
+  memberOneId: z.string().min(1, { message: "MemberOne id is required." }),
+  memberTwoId: z.string().min(1, { message: "MemberTwo id is required." }),
+});
