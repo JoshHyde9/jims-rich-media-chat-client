@@ -9,7 +9,7 @@ import {
 } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import { useState } from "react";
-import SuperJSON from "superjson";
+import superjson from "superjson";
 
 import { type AppRouter } from "~/server/api/root";
 
@@ -46,10 +46,10 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
         }),
         wsLink({
           client: wsClient,
-          transformer: SuperJSON,
+          transformer: superjson,
         }),
         unstable_httpBatchStreamLink({
-          transformer: SuperJSON,
+          transformer: superjson,
           url: getBaseUrl() + "/api/trpc",
           headers: () => {
             const headers = new Headers();
